@@ -5,7 +5,7 @@ export interface CreateWard extends Request {
     users: string[];
     facility: string;
     department: string;
-    wardName: string[];
+    wardName: string;
     phoneNumber: string;
     cautions?: string;
     howToFind?: string;

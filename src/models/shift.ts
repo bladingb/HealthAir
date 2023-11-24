@@ -9,6 +9,7 @@ type shiftTypes = "Call In Sick" | "Shift Swap" | "NIC Request";
 
 // To do : multiple selection of nurse level,
 export interface ShiftDocument {
+  _id: ObjectId;
   userFrom: ObjectId;
   commentFrom?: string;
   userTo?: ObjectId;

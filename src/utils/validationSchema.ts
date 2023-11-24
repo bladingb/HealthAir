@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { isValidObjectId } from "mongoose";
-import { nurselevels } from "#/models/user";
+import user, { nurselevels } from "#/models/user";
 import { shifts } from "#/models/shift";
 
 export const CreateUserSchema = yup.object().shape({
@@ -63,7 +63,7 @@ export const SignInValidationSchema = yup.object().shape({
   password: yup.string().trim().required("Password is missing!"),
 });
 
-// To be completed...
+// Shift Schemas
 export const CreateShiftSchema = yup.object().shape({
   shiftType: yup.string().oneOf(shifts, "Choose one of the shift types!"),
   wardTo: yup.string().trim().required("Choose your ward!"),
@@ -73,16 +73,38 @@ export const CreateShiftSchema = yup.object().shape({
     .required("Start time is missing!"),
   finishTime: yup
     .date()
-    .min(yup.ref("from"), "Finish time must be later than start time!")
+    .min(yup.ref("startTime"), "Finish time must be later than start time!")
     .required("Finish time is missing!"),
   nurseLevel: yup
-    .array().of(yup.string()
-    .oneOf(nurselevels, "Choose one or more nurse levels!")),
+    .array()
+    .of(yup.string().oneOf(nurselevels, "Choose one or more nurse levels!")),
 });
 
+export const TakeShiftSchema = yup.object().shape({
+  commentTo: yup.string().trim(),
+});
 
+export const CancelShiftSchema = yup.object().shape({
+  commentFrom: yup.string().trim().required("Comment is missing!"),
+});
+
+export const UpdateShiftSchema = yup.object().shape({
+  startTime: yup
+    .date()
+    .min(new Date(Date.now()), "Invalid date!")
+    .required("Start time is missing!"),
+  finishTime: yup
+    .date()
+    .min(yup.ref("startTime"), "Finish time must be later than start time!")
+    .required("Finish time is missing!"),
+  commentFrom: yup.string().trim(),
+  wardTo: yup.string().trim().required("Choose a ward!"),
+});
+
+// Ward Schemas
 export const CreateWardSchema = yup.object().shape({
   facility: yup.string().trim().required("Facility name is missing!"),
+  department: yup.string().trim().required("Department name is missing!"),
   wardName: yup.string().trim().required("Ward name is missing!"),
   phoneNumber: yup.string().trim().required("Phone number is missing!"),
 });

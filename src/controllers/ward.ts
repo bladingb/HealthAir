@@ -31,3 +31,4 @@ export const createWard: RequestHandler = async (req: CreateWard, res) => {
   });
   res.status(201).json({ ward });
 }
+

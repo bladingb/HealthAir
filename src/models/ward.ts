@@ -1,6 +1,7 @@
 import { Model, ObjectId, Schema, model, models } from "mongoose";
 
 export interface WardDocument {
+  _id: ObjectId;
   users: ObjectId[];
   facility: string;
   department: string;
